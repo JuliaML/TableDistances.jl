@@ -11,7 +11,11 @@ import Distances: pairwise
 # distances for scientific types
 # -------------------------------
 
-default_distance(::Continuous) = Euclidean()
+default_distance(::Type{Continuous}) = Euclidean()
+default_distance(::Type{Count}) = Cityblock()
+default_distance(::Type{<:Multiclass}) = Distances.Hamming()
+default_distance(::Type{<:OrderedFactor}) = Chebyshev()
+default_distance(::Type{Textual}) = StringDistances.Levenshtein()
 default_distance(::Type{<:Compositional}) = CoDaDistance()
 # TODO: add other cases
 
