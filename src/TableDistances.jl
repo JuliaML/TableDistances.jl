@@ -2,7 +2,7 @@ module TableDistances
 
 using Distances
 using StringDistances
-using CoDa: CoDaDistance
+using CoDa
 using ScientificTypesBase
 
 import Distances: pairwise
@@ -11,8 +11,12 @@ import Distances: pairwise
 # distances for scientific types
 # -------------------------------
 
-default_distance(::Continuous) = Euclidean()
-# TODO: add other cases
+default_distance(::Type{Continuous})      = Distances.Euclidean()
+default_distance(::Type{Count})           = Distances.Cityblock()
+default_distance(::Type{<:Multiclass})    = Distances.Hamming()
+default_distance(::Type{<:OrderedFactor}) = Distances.Chebyshev()
+default_distance(::Type{Textual})         = StringDistances.Levenshtein()
+default_distance(::Type{<:Compositional}) = CoDa.CoDaDistance()
 
 # -------------------------------
 
