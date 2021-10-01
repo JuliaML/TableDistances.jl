@@ -31,7 +31,6 @@ function cols2dists(table)
   columns = Tables.columnnames(table)
   scitypes = schema(table).scitypes
   distances = default_distance.(scitypes)
-  
   Dict(columns .=> distances)
 end
 
