@@ -43,8 +43,8 @@ julia> pairwise(TableDistance(), table₁, table₂)
 struct TableDistance end
 
 function pairwise(td::TableDistance, table₁, table₂)
-  distance4column₁ = cols2dists(table₁)
-  distance4column₂ = cols2dists(table₂)
+  distances₁ = default_distances(table₁)
+  distances₂ = default_distances(table₂)
 
   @assert distance4column₁ == distance4column₂ "incompatible columns types"
 
