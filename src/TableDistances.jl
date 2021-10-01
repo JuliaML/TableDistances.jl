@@ -39,7 +39,6 @@ end
 
 export
   TableDistance,
-  pairwise,
-  default_distance
+  pairwise
 
 end
