@@ -12,6 +12,7 @@ import Distances: pairwise
 # -------------------------------
 
 default_distance(::Continuous) = Euclidean()
+default_distance(::Type{<:Compositional}) = CoDaDistance()
 # TODO: add other cases
 
 # -------------------------------
