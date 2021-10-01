@@ -46,7 +46,7 @@ function pairwise(td::TableDistance, table₁, table₂)
   distances₁ = default_distances(table₁)
   distances₂ = default_distances(table₂)
 
-  @assert distance4column₁ == distance4column₂ "incompatible columns types"
+  @assert distances₁ == distances₂ "incompatible columns types"
 
   sum([pairwise(distance4column₁[key], Tables.getcolumn(table₁, key), Tables.getcolumn(table₂,key)) for key in keys(distance4column₁)])
 end
