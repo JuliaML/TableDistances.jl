@@ -46,9 +46,7 @@ Distance between rows of Tables.jl tables.
 julia> pairwise(TableDistance(), table₁, table₂)
 ```
 """
-struct TableDistance
-  distance::Dict
-end
+struct TableDistance end
 
 function pairwise(td::TableDistance, table₁, table₂)
   distance4column₁ = cols2dists(table₁)
