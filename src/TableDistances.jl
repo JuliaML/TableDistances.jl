@@ -22,12 +22,7 @@ default_distance(::Type{<:Compositional}) = CoDa.CoDaDistance()
 
 # -------------------------------
 
-"""
-    cols2dists(table)
-
-Given a table, return a dictionary with column => default_distance. 
-"""
-function cols2dists(table)
+function default_distances(table)
   columns = Tables.columnnames(table)
   scitypes = schema(table).scitypes
   distances = default_distance.(scitypes)
