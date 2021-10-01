@@ -3,7 +3,17 @@ uuid = "e5d66e97-8c70-46bb-8b66-04a2d73ad782"
 authors = ["Júlio Hoffimann <julio.hoffimann@gmail.com>", "José Augusto <jose.augusto@impa.br>"]
 version = "0.1.0"
 
+[deps]
+CoDa = "5900dafe-f573-5c72-b367-76665857777b"
+Distances = "b4f34e82-e78d-54a5-968a-f98e89d6e8f7"
+ScientificTypesBase = "30f210dd-8aff-4c5f-94ba-8e64358c1161"
+StringDistances = "88034a9c-02f8-509d-84a9-84ec65e18404"
+
 [compat]
+CoDa = "0.6"
+Distances = "0.10"
+ScientificTypesBase = "2.3"
+StringDistances = "0.11"
 julia = "1.6"
 
 [extras]
