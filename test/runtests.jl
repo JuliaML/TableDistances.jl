@@ -14,8 +14,8 @@ using Distances
   codacol₁ = Tables.getcolumn(table₁, :b)
   codacol₂ = Tables.getcolumn(table₂, :b)
 
-  P₁ = TableDistances.pairwise(TableDistance(), table₁, table₂)
-  P₂ = Distances.pairwise(Euclidean(), euclidcol₁, euclidcol₂) + Distances.pairwise(CoDaDistance(), codacol₁, codacol₂)
+  P₁ = pairwise(TableDistance(), table₁, table₂)
+  P₂ = pairwise(Euclidean(), euclidcol₁, euclidcol₂) + pairwise(CoDaDistance(), codacol₁, codacol₂)
 
   @test P₁ ≈ P₂
 end
