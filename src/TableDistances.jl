@@ -40,6 +40,9 @@ default_normalization(::Type{Continuous}) =
 default_normalization(::Type{<:Compositional}) =
   x -> x ./ maximum(norm.(x))
 
+# fallback to no normalization
+default_normalization(::Type) = identity
+
 function normalize(table)
   colnames  = Tables.columnnames(table)
   scitypes  = schema(table).scitypes
