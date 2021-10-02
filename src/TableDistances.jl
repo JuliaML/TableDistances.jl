@@ -5,6 +5,7 @@
 module TableDistances
 
 using Tables
+using TableOperations
 using ScientificTypes
 using Distances
 using StringDistances
@@ -36,26 +37,35 @@ end
 # ------------------------------------
 
 default_normalization(::Type{Continuous}) =
-  x -> x ./ (quantile(x, 0.75) - quantile(x, 0.25))
+  x -> (quantile(x, 0.75) - quantile(x, 0.25))
 default_normalization(::Type{<:Compositional}) =
-  x -> x ./ maximum(norm.(x))
+  x -> maximum(norm.(x))
 
 # fallback to no normalization
-default_normalization(::Type) = identity
+default_normalization(::Type) = x -> one(eltype(x))
 
-function normalize(table)
-  colnames  = Tables.columnnames(table)
-  scitypes  = schema(table).scitypes
-  norms     = default_normalization.(scitypes)
-  colsnorms = zip(colnames, norms)
-  
-  f((c, n)) = Tables.getcolumn(table, c) |> n
-  
-  colvalues = map(f, colsnorms)
-  
-  # return same table type
-  ctor = Tables.materializer(table)
-  ctor((; zip(colnames, colvalues)...))
+function normalize(tables...)
+  partitions = Tables.partitioner(collect(tables))
+  longtable  = TableOperations.joinpartitions(partitions)
+  colnames   = Tables.columnnames(longtable)
+  scitypes   = schema(longtable).scitypes
+
+  constants  = map(zip(colnames, scitypes)) do (c, s)
+    x = Tables.getcolumn(longtable, c)
+    k = default_normalization(s)
+    k(x)
+  end
+
+  colconst   = zip(colnames, constants)
+
+  map(tables) do table
+    # perform normalization
+    colvalues = [Tables.getcolumn(table, c) ./ k for (c, k) in colconst]
+
+    # return same table type
+    ctor = Tables.materializer(table)
+    ctor((; zip(colnames, colvalues)...))
+  end
 end
 
 # ------------------------------------
@@ -89,8 +99,11 @@ function pairwise(d::TableDistance, table₁, table₂)
   @assert distances₁ == distances₂ "incompatible columns types"
   
   # normalize tables if necessary
-  n = d.normalize ? normalize : identity
-  t₁, t₂ = n(table₁), n(table₂)
+  t₁, t₂ = if d.normalize
+    normalize(table₁, table₂)
+  else
+    table₁, table₂
+  end
 
   function f((c, d))
     x = Tables.getcolumn(t₁, c)
