@@ -7,16 +7,16 @@ using ScientificTypes
 
 @testset "TableDistances.jl" begin
   # Testing default normalization
-  tᵦ = (a = rand(4), b = rand(Composition{5}, 4))
-  tᵧ = (a = rand(6), b = rand(Composition{5}, 6))
+  table₁ = (a = rand(4), b = rand(Composition{5}, 4))
+  table₂ = (a = rand(6), b = rand(Composition{5}, 6))
 
-  tableᵦ = TableDistances.normalize(tᵦ)
-  tableᵧ = TableDistances.normalize(tᵧ)
+  t₁ = TableDistances.normalize(table₁)
+  t₂ = TableDistances.normalize(table₂)
 
-  @test Tables.getcolumn(tableᵦ, :a) == TableDistances.default_normalization(Continuous)(Tables.getcolumn(tᵦ, :a))
-  @test Tables.getcolumn(tableᵦ, :b) == TableDistances.default_normalization(Compositional)(Tables.getcolumn(tᵦ, :b))
-  @test Tables.getcolumn(tableᵧ, :a) == TableDistances.default_normalization(Continuous)(Tables.getcolumn(tᵧ, :a))
-  @test Tables.getcolumn(tableᵧ, :b) == TableDistances.default_normalization(Compositional)(Tables.getcolumn(tᵧ, :b))
+  @test Tables.getcolumn(t₁, :a) == TableDistances.default_normalization(Continuous)(Tables.getcolumn(table₁, :a))
+  @test Tables.getcolumn(t₁, :b) == TableDistances.default_normalization(Compositional)(Tables.getcolumn(table₁, :b))
+  @test Tables.getcolumn(t₂, :a) == TableDistances.default_normalization(Continuous)(Tables.getcolumn(table₂, :a))
+  @test Tables.getcolumn(t₂, :b) == TableDistances.default_normalization(Compositional)(Tables.getcolumn(table₂, :b))
 
   # Testing table distance pairwise with normalization
   table₁ = TableDistances.normalize((a = rand(4), b = rand(Composition{5}, 4)))
