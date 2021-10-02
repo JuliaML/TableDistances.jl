@@ -33,17 +33,21 @@ default_normalization(::Type{Continuous})      = x -> x ./ (quantile(x, 0.75) - 
 default_normalization(::Type{<:Compositional}) = x -> x ./ maximum(norm.(x))
 
 function normalize(table)
-  scitypes = schema(table).scitypes
-  normalizations = default_normalization.(scitypes)
-  ctor = Tables.materializer(table)
   colnames = Tables.columnnames(table)
-
+  scitypes = schema(table).scitypes
+  norms = default_normalization.(scitypes)
+  
   function f((c, n))
     x = Tables.getcolumn(table, c)
     n(x)
   end
   
-  colvalues = map(f, zip(colnames, normalizations))
+  x = zip(colnames, norms)
+  
+  colvalues = map(f, x)
+  
+  # return same table type
+  ctor = Tables.materializer(table)
   ctor((; zip(colnames, colvalues)...))
 end
 
