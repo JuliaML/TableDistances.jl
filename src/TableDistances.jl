@@ -5,6 +5,7 @@ using StringDistances
 using CoDa
 using ScientificTypes
 using Tables
+using Statistics
 
 import Distances: pairwise
 
@@ -28,6 +29,23 @@ end
 
 # -------------------------------
 
+default_normalization(::Type{Continuous})      = x -> x ./ (quantile(x, 0.75) - quantile(x, 0.25))
+default_normalization(::Type{<:Compositional}) = x -> x ./ maximum(norm.(x))
+
+function normalize(table)
+  colnames = Tables.columnnames(table)
+  scitypes = schema(table).scitypes
+  norms = default_normalization.(scitypes)
+  
+  f((c, n)) = Tables.getcolumn(table, c) |> n
+  
+  colvalues = map(f, zip(colnames, norms))
+  
+  # return same table type
+  ctor = Tables.materializer(table)
+  ctor((; zip(colnames, colvalues)...))
+end
+
 """
     TableDistance
 
@@ -44,6 +62,9 @@ struct TableDistance end
 function pairwise(td::TableDistance, table₁, table₂)
   distances₁ = default_distances(table₁)
   distances₂ = default_distances(table₂)
+
+  table₁ = normalize(table₁)
+  table₂ = normalize(table₂)
 
   @assert distances₁ == distances₂ "incompatible columns types"
   
