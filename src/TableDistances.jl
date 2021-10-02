@@ -19,14 +19,14 @@ default_distance(::Type{<:OrderedFactor}) = Distances.Chebyshev()
 default_distance(::Type{Textual})         = StringDistances.Levenshtein()
 default_distance(::Type{<:Compositional}) = CoDa.CoDaDistance()
 
-# -------------------------------
-
 function default_distances(table)
   columns = Tables.columnnames(table)
   scitypes = schema(table).scitypes
   distances = default_distance.(scitypes)
   Dict(columns .=> distances)
 end
+
+# -------------------------------
 
 """
     TableDistance
