@@ -47,8 +47,6 @@ function pairwise(td::TableDistance, table₁, table₂)
   distances₂ = default_distances(table₂)
 
   @assert distances₁ == distances₂ "incompatible columns types"
-
-  pairs = collect(distances₁)
   
   function f((c, d))
     x = Tables.getcolumn(table₁, c)
@@ -56,7 +54,7 @@ function pairwise(td::TableDistance, table₁, table₂)
     pairwise(d, x, y)
   end
   
-  mapreduce(f, +, pairs)
+  mapreduce(f, +, distances₁)
 end
 
 export
