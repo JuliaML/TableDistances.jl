@@ -39,9 +39,7 @@ function normalize(table)
   
   f((c, n)) = Tables.getcolumn(table, c) |> n
   
-  x = zip(colnames, norms)
-  
-  colvalues = map(f, x)
+  colvalues = map(f, zip(colnames, norms))
   
   # return same table type
   ctor = Tables.materializer(table)
