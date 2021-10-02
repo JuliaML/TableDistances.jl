@@ -34,7 +34,7 @@ default_normalization(::Type{<:Compositional}) = x -> x ./ maximum(norm.(x))
 
 function normalize(table)
   scitypes = schema(table).scitypes
-  normalizations = [default_normalization(scitype) for scitype in scitypes]
+  normalizations = default_normalization.(scitypes)
   ctor = Tables.materializer(table)
   colnames = Tables.columnnames(table)
   colvalues = [nc[1](Tables.getcolumn(table, nc[2])) for nc in zip(normalizations, colnames)]
