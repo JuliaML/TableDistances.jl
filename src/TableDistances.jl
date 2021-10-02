@@ -3,7 +3,6 @@ module TableDistances
 using Distances
 using StringDistances
 using CoDa
-using ScientificTypesBase
 using ScientificTypes
 using Tables
 
