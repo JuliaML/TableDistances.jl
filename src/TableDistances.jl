@@ -37,7 +37,13 @@ function normalize(table)
   normalizations = default_normalization.(scitypes)
   ctor = Tables.materializer(table)
   colnames = Tables.columnnames(table)
-  colvalues = [nc[1](Tables.getcolumn(table, nc[2])) for nc in zip(normalizations, colnames)]
+
+  function f((c, n))
+    x = Tables.getcolumn(table, c)
+    n(x)
+  end
+  
+  colvalues = map(f, zip(colnames, normalizations))
   ctor((; zip(colnames, colvalues)...))
 end
 
