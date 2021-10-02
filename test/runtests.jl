@@ -9,8 +9,8 @@ using ScientificTypes
   t₁ = (a = rand(4), b = rand(Composition{5}, 4))
   t₂ = (a = rand(6), b = rand(Composition{5}, 6))
 
-  table₁ = TableDistances.normalize_table(t₁)
-  table₂ = TableDistances.normalize_table(t₂)
+  table₁ = TableDistances.normalize(t₁)
+  table₂ = TableDistances.normalize(t₂)
 
   @test Tables.getcolumn(table₁, :a) == TableDistances.default_normalization(Continuous)(Tables.getcolumn(t₁, :a))
   @test Tables.getcolumn(table₁, :b) == TableDistances.default_normalization(Compositional)(Tables.getcolumn(t₁, :b))
