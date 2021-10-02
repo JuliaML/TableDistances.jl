@@ -48,7 +48,15 @@ function pairwise(td::TableDistance, table₁, table₂)
 
   @assert distances₁ == distances₂ "incompatible columns types"
 
-  sum([pairwise(distances₁[key], Tables.getcolumn(table₁, key), Tables.getcolumn(table₂,key)) for key in keys(distances₁)])
+  pairs = collect(distances₁)
+  
+  function f((c, d))
+    x = Tables.getcolumn(table₁, c)
+    y = Tables.getcolumn(table₂, c)
+    pairwise(d, x, y)
+  end
+  
+  mapreduce(f, +, pairs)
 end
 
 export
