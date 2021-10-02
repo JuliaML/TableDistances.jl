@@ -32,7 +32,7 @@ end
 default_normalization(::Type{Continuous})      = x -> x ./ (quantile(x, 0.75) - quantile(x, 0.25))
 default_normalization(::Type{<:Compositional}) = x -> x ./ maximum(norm.(x))
 
-function normalize_table(table)
+function normalize(table)
   scitypes = schema(table).scitypes
   normalizations = [default_normalization(scitype) for scitype in scitypes]
   ctor = Tables.materializer(table)
