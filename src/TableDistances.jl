@@ -4,11 +4,11 @@
 
 module TableDistances
 
+using Tables
+using ScientificTypes
 using Distances
 using StringDistances
 using CoDa
-using Tables
-using ScientificTypes
 using Statistics
 
 import Distances: pairwise
