@@ -68,6 +68,7 @@ Distance between rows of Tables.jl tables.
 ## Options
 
 * `normalize` - whether or not to normalize the columns
+                of the tables before computing distances
 
 ## Example
 
