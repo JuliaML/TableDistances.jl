@@ -3,10 +3,19 @@ using Tables
 using Test
 using CoDa
 using Distances
+using ScientificTypes
 
 @testset "TableDistances.jl" begin
-  table₁ = (a = rand(4), b = rand(Composition{5}, 4))
-  table₂ = (a = rand(6), b = rand(Composition{5}, 6))
+  t₁ = (a = rand(4), b = rand(Composition{5}, 4))
+  t₂ = (a = rand(6), b = rand(Composition{5}, 6))
+
+  table₁ = TableDistances.normalize_table(t₁)
+  table₂ = TableDistances.normalize_table(t₂)
+
+  @test Tables.getcolumn(table₁, :a) == TableDistances.default_normalization(Continuous)(Tables.getcolumn(t₁, :a))
+  @test Tables.getcolumn(table₁, :b) == TableDistances.default_normalization(Compositional)(Tables.getcolumn(t₁, :b))
+  @test Tables.getcolumn(table₂, :a) == TableDistances.default_normalization(Continuous)(Tables.getcolumn(t₂, :a))
+  @test Tables.getcolumn(table₂, :b) == TableDistances.default_normalization(Compositional)(Tables.getcolumn(t₂, :b))
 
   euclidcol₁ = Tables.getcolumn(table₁, :a)
   euclidcol₂ = Tables.getcolumn(table₂, :a)
