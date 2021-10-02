@@ -18,10 +18,6 @@ using ScientificTypes
   @test Tables.getcolumn(t₂, :a) == TableDistances.default_normalization(Continuous)(Tables.getcolumn(table₂, :a))
   @test Tables.getcolumn(t₂, :b) == TableDistances.default_normalization(Compositional)(Tables.getcolumn(table₂, :b))
 
-  # Testing table distance pairwise with normalization
-  table₁ = TableDistances.normalize((a = rand(4), b = rand(Composition{5}, 4)))
-  table₂ = TableDistances.normalize((a = rand(6), b = rand(Composition{5}, 6)))
-
   euclidcol₁ = Tables.getcolumn(table₁, :a)
   euclidcol₂ = Tables.getcolumn(table₂, :a)
 
