@@ -19,14 +19,20 @@ using ScientificTypes
     @test Tables.getcolumn(t₂, :b) == TableDistances.default_normalization(Compositional)(Tables.getcolumn(table₂, :b))
   end
 
-  euclidcol₁ = Tables.getcolumn(table₁, :a)
-  euclidcol₂ = Tables.getcolumn(table₂, :a)
+  @testset "Pairwise" begin
+    t₁ = TableDistances.normalize(table₁)
+    t₂ = TableDistances.normalize(table₂)
 
-  codacol₁ = Tables.getcolumn(table₁, :b)
-  codacol₂ = Tables.getcolumn(table₂, :b)
-
-  P₁ = pairwise(TableDistance(), table₁, table₂)
-  P₂ = pairwise(Euclidean(), euclidcol₁, euclidcol₂) + pairwise(CoDaDistance(), codacol₁, codacol₂)
-
-  @test P₁ ≈ P₂
+    euclidcol₁ = Tables.getcolumn(t₁, :a)
+    euclidcol₂ = Tables.getcolumn(t₂, :a)
+  
+    codacol₁ = Tables.getcolumn(t₁, :b)
+    codacol₂ = Tables.getcolumn(t₂, :b)
+  
+    P₁ = pairwise(TableDistance(), table₁, table₂)
+    P₂ = pairwise(Euclidean(), euclidcol₁, euclidcol₂) + pairwise(CoDaDistance(), codacol₁, codacol₂)
+  
+    @test P₁ ≈ P₂
+  end
+  
 end
