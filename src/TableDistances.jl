@@ -37,10 +37,7 @@ function normalize(table)
   scitypes = schema(table).scitypes
   norms = default_normalization.(scitypes)
   
-  function f((c, n))
-    x = Tables.getcolumn(table, c)
-    n(x)
-  end
+  f((c, n)) = Tables.getcolumn(table, c) |> n
   
   x = zip(colnames, norms)
   
