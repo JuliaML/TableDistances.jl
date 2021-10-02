@@ -58,8 +58,8 @@ function pairwise(td::TableDistance, table₁, table₂)
   distances₁ = default_distances(table₁)
   distances₂ = default_distances(table₂)
 
-  table₁ = normalize_table(table₁)
-  table₂ = normalize_table(table₂)
+  table₁ = normalize(table₁)
+  table₂ = normalize(table₂)
 
   @assert distances₁ == distances₂ "incompatible columns types"
   
