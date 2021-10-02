@@ -1,10 +1,14 @@
+# ------------------------------------------------------------------
+# Licensed under the MIT License. See LICENCE in the project root.
+# ------------------------------------------------------------------
+
 module TableDistances
 
 using Distances
 using StringDistances
 using CoDa
-using ScientificTypes
 using Tables
+using ScientificTypes
 using Statistics
 
 import Distances: pairwise
@@ -27,29 +31,40 @@ function default_distances(table)
   Dict(columns .=> distances)
 end
 
-# -------------------------------
+# ------------------------------------
+# normalizations for scientific types
+# ------------------------------------
 
-default_normalization(::Type{Continuous})      = x -> x ./ (quantile(x, 0.75) - quantile(x, 0.25))
-default_normalization(::Type{<:Compositional}) = x -> x ./ maximum(norm.(x))
+default_normalization(::Type{Continuous}) =
+  x -> x ./ (quantile(x, 0.75) - quantile(x, 0.25))
+default_normalization(::Type{<:Compositional}) =
+  x -> x ./ maximum(norm.(x))
 
 function normalize(table)
-  colnames = Tables.columnnames(table)
-  scitypes = schema(table).scitypes
-  norms = default_normalization.(scitypes)
+  colnames  = Tables.columnnames(table)
+  scitypes  = schema(table).scitypes
+  norms     = default_normalization.(scitypes)
+  colsnorms = zip(colnames, norms)
   
   f((c, n)) = Tables.getcolumn(table, c) |> n
   
-  colvalues = map(f, zip(colnames, norms))
+  colvalues = map(f, colsnorms)
   
   # return same table type
   ctor = Tables.materializer(table)
   ctor((; zip(colnames, colvalues)...))
 end
 
+# ------------------------------------
+
 """
-    TableDistance
+    TableDistance(; normalize=true)
 
 Distance between rows of Tables.jl tables.
+
+## Options
+
+* `normalize` - whether or not to normalize the columns
 
 ## Example
 
@@ -57,20 +72,25 @@ Distance between rows of Tables.jl tables.
 julia> pairwise(TableDistance(), table₁, table₂)
 ```
 """
-struct TableDistance end
+struct TableDistance
+  normalize::Bool
+end
 
-function pairwise(td::TableDistance, table₁, table₂)
+TableDistance(; normalize=true) = TableDistance(normalize)
+
+function pairwise(d::TableDistance, table₁, table₂)
   distances₁ = default_distances(table₁)
   distances₂ = default_distances(table₂)
 
-  table₁ = normalize(table₁)
-  table₂ = normalize(table₂)
-
   @assert distances₁ == distances₂ "incompatible columns types"
   
+  # normalize tables if necessary
+  n = d.normalize ? normalize : identity
+  t₁, t₂ = n(table₁), n(table₂)
+
   function f((c, d))
-    x = Tables.getcolumn(table₁, c)
-    y = Tables.getcolumn(table₂, c)
+    x = Tables.getcolumn(t₁, c)
+    y = Tables.getcolumn(t₂, c)
     pairwise(d, x, y)
   end
   

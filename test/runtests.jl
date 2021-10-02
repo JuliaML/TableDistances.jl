@@ -6,10 +6,10 @@ using Distances
 using ScientificTypes
 
 @testset "TableDistances.jl" begin
-  table₁ = (a = rand(4), b = rand(Composition{5}, 4))
-  table₂ = (a = rand(6), b = rand(Composition{5}, 6))
-
   @testset "Normalization" begin
+    table₁ = (a = rand(4), b = rand(Composition{5}, 4))
+    table₂ = (a = rand(6), b = rand(Composition{5}, 6))
+
     t₁ = TableDistances.normalize(table₁)
     t₂ = TableDistances.normalize(table₂)
 
@@ -20,18 +20,18 @@ using ScientificTypes
   end
 
   @testset "Pairwise" begin
-    t₁ = TableDistances.normalize(table₁)
-    t₂ = TableDistances.normalize(table₂)
+    table₁ = (a = rand(4), b = rand(Composition{5}, 4))
+    table₂ = (a = rand(6), b = rand(Composition{5}, 6))
 
-    euclidcol₁ = Tables.getcolumn(t₁, :a)
-    euclidcol₂ = Tables.getcolumn(t₂, :a)
+    euclidcol₁ = Tables.getcolumn(table₁, :a)
+    euclidcol₂ = Tables.getcolumn(table₂, :a)
   
-    codacol₁ = Tables.getcolumn(t₁, :b)
-    codacol₂ = Tables.getcolumn(t₂, :b)
+    codacol₁ = Tables.getcolumn(table₁, :b)
+    codacol₂ = Tables.getcolumn(table₂, :b)
   
-    P₁ = pairwise(TableDistance(), table₁, table₂)
-    P₂ = pairwise(Euclidean(), euclidcol₁, euclidcol₂) + pairwise(CoDaDistance(), codacol₁, codacol₂)
-  
+    P₁ = pairwise(TableDistance(normalize=false), table₁, table₂)
+    P₂ = pairwise(Euclidean(), euclidcol₁, euclidcol₂) +
+         pairwise(CoDaDistance(), codacol₁, codacol₂)
     @test P₁ ≈ P₂
   end
   
