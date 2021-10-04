@@ -111,9 +111,8 @@ function pairwise(td::TableDistance, table₁, table₂)
   @assert keys(weights) == keys(distances₁) "incompatible columns names and weights"
   @assert all(values(weights) .> 0) "negative weights not supported"
 
-  weights = map(collect(weights)) do (key, value)
-    key => value / sum(values(weights))
-  end |> Dict
+  c, w = keys(weights), values(weights)
+  weights = Dict(c .=> w ./ sum(w))
   
   # normalize tables if necessary
   t₁, t₂ = if td.normalize
