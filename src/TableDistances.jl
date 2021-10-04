@@ -87,8 +87,8 @@ julia> pairwise(TableDistance(), table₁, table₂)
 ```
 """
 struct TableDistance{W}
-  weights::W
   normalize::Bool
+  weights::W
 end
 
 TableDistance(; normalize=true, weights=nothing) =
