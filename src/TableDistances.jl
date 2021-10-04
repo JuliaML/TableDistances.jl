@@ -86,20 +86,36 @@ Distance between rows of Tables.jl tables.
 julia> pairwise(TableDistance(), table₁, table₂)
 ```
 """
-struct TableDistance
+struct TableDistance{W}
   normalize::Bool
+  weights::W
 end
 
-TableDistance(; normalize=true) = TableDistance(normalize)
+TableDistance(; normalize=true, weights=nothing) =
+  TableDistance{typeof(weights)}(normalize, weights)
 
-function pairwise(d::TableDistance, table₁, table₂)
+function default_weights(table)
+  cols = Tables.columnnames(table)
+  n = length(cols)
+  Dict(cols .=> fill(1/n, n))
+end
+
+function pairwise(td::TableDistance, table₁, table₂)
   distances₁ = default_distances(table₁)
   distances₂ = default_distances(table₂)
 
   @assert distances₁ == distances₂ "incompatible columns types"
+
+  weights = isnothing(td.weights) ? default_weights(table₁) : td.weights
+
+  @assert keys(weights) == keys(distances₁) "incompatible columns names and weights"
+  @assert all(values(weights) .> 0) "negative weights not supported"
+
+  c, w = keys(weights), values(weights)
+  weights = Dict(c .=> w ./ sum(w))
   
   # normalize tables if necessary
-  t₁, t₂ = if d.normalize
+  t₁, t₂ = if td.normalize
     normalize(table₁, table₂)
   else
     table₁, table₂
@@ -108,7 +124,7 @@ function pairwise(d::TableDistance, table₁, table₂)
   function f((c, d))
     x = Tables.getcolumn(t₁, c)
     y = Tables.getcolumn(t₂, c)
-    pairwise(d, x, y)
+    weights[c] * pairwise(d, x, y)
   end
   
   mapreduce(f, +, distances₁)

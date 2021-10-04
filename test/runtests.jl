@@ -18,9 +18,13 @@ using ScientificTypes
   
     D₁ = pairwise(TableDistance(normalize=true), table₁, table₂)
     D₂ = pairwise(TableDistance(normalize=false), table₁, table₂)
-    D₃ = pairwise(Euclidean(), euclidcol₁, euclidcol₂) +
-         pairwise(CoDaDistance(), codacol₁, codacol₂)
+    D₃ = 0.5*pairwise(Euclidean(), euclidcol₁, euclidcol₂) +
+         0.5*pairwise(CoDaDistance(), codacol₁, codacol₂)
+    D₄ = pairwise(TableDistance(normalize=false, weights=Dict(:a => 2., :b => 8.)), table₁, table₂)
+    D₅ = 0.2*pairwise(Euclidean(), euclidcol₁, euclidcol₂) +
+         0.8*pairwise(CoDaDistance(), codacol₁, codacol₂)
     @test sum(D₁ .≤ D₂) > 4*6/2
     @test D₂ ≈ D₃
+    @test D₄ ≈ D₅
   end
 end
