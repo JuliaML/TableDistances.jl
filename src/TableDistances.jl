@@ -87,19 +87,21 @@ julia> pairwise(TableDistance(), table₁, table₂)
 ```
 """
 struct TableDistance
+  weights::Dict{Symbol, Float64}
   normalize::Bool
 end
 
-TableDistance(; normalize=true) = TableDistance(normalize)
+TableDistance(weigths; normalize=true) = TableDistance(weigths, normalize)
 
-function pairwise(d::TableDistance, table₁, table₂)
+function pairwise(td::TableDistance, table₁, table₂)
   distances₁ = default_distances(table₁)
   distances₂ = default_distances(table₂)
 
   @assert distances₁ == distances₂ "incompatible columns types"
+  @assert keys(distances₁) == keys(td.weights) "incompatible columns names and weights"
   
   # normalize tables if necessary
-  t₁, t₂ = if d.normalize
+  t₁, t₂ = if td.normalize
     normalize(table₁, table₂)
   else
     table₁, table₂
@@ -108,7 +110,7 @@ function pairwise(d::TableDistance, table₁, table₂)
   function f((c, d))
     x = Tables.getcolumn(t₁, c)
     y = Tables.getcolumn(t₂, c)
-    pairwise(d, x, y)
+    td.weights[c] * pairwise(d, x, y)
   end
   
   mapreduce(f, +, distances₁)
