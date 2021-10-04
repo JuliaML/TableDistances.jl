@@ -21,6 +21,6 @@ using ScientificTypes
     D₃ = pairwise(Euclidean(), euclidcol₁, euclidcol₂) +
          pairwise(CoDaDistance(), codacol₁, codacol₂)
     @test sum(D₁ .≤ D₂) > 4*6/2
-    @test D₂ ≈ D₃
+    @test D₂ ≈ 0.5*D₃
   end
 end
