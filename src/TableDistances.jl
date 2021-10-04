@@ -109,7 +109,7 @@ function pairwise(td::TableDistance, table₁, table₂)
   weights = isnothing(td.weights) ? default_weights(table1) : td.weights
 
   @assert keys(weights) == keys(distances₁) "incompatible columns names and weights"
-  @assert sum(values(weights) .< 0) == 0 "negative weights not supported"
+  @assert all(values(weights) .> 0) "negative weights not supported"
   
   # normalize tables if necessary
   t₁, t₂ = if td.normalize
