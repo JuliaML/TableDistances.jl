@@ -92,7 +92,7 @@ struct TableDistance{W}
 end
 
 TableDistance(; normalize=true, weights=nothing) =
-  TableDistance{typeof(weights)}(weights, normalize)
+  TableDistance{typeof(weights)}(normalize, weights)
 
 function default_weights(table)
   keys = Tables.columnnames(table)
