@@ -95,9 +95,9 @@ TableDistance(; normalize=true, weights=nothing) =
   TableDistance{typeof(weights)}(normalize, weights)
 
 function default_weights(table)
-  keys = Tables.columnnames(table)
-  n = length(keys)
-  Dict(keys .=> fill(1/n, n))
+  cols = Tables.columnnames(table)
+  n = length(cols)
+  Dict(cols .=> fill(1/n, n))
 end
 
 function pairwise(td::TableDistance, table₁, table₂)
