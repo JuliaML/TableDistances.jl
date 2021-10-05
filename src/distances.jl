@@ -13,9 +13,13 @@ struct MulticlassDistance <: Metric end
 
 (::MulticlassDistance)(x, y) = x != y
 
+result_type(::MulticlassDistance, x, y) = Float64
+
 struct OrderedFactorDistance <: Metric end
 
 (::OrderedFactorDistance)(x, y) = abs(levelcode(x) - levelcode(y))
+
+result_type(::OrderedFactorDistance, x, y) = Float64
 
 function default_distances(table)
   columns = Tables.columnnames(table)

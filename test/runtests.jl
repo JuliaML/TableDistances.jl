@@ -1,6 +1,7 @@
 using TableDistances
 using Tables
 using Test
+using CategoricalArrays
 using CoDa
 using Distances
 using ScientificTypes
@@ -10,12 +11,15 @@ using ScientificTypes
     # test data
     table₁ = (a = rand(4), b = rand(Composition{5}, 4))
     table₂ = (a = rand(6), b = rand(Composition{5}, 6))
+    table₃ = (a = categorical(["a", "b", "a", "c"]), b = categorical([1, 4, 1, 5]))
 
     # specific columns
     euclidcol₁ = Tables.getcolumn(table₁, :a)
     euclidcol₂ = Tables.getcolumn(table₂, :a)
     codacol₁   = Tables.getcolumn(table₁, :b)
     codacol₂   = Tables.getcolumn(table₂, :b)
+    multiclass = Tables.getcolumn(table₃, :a)
+    ordered    = Tables.getcolumn(table₃, :b)
   
     # column normalization
     D₁ = pairwise(TableDistance(normalize=true), table₁, table₂)
@@ -35,6 +39,13 @@ using ScientificTypes
     D₁ = pairwise(TableDistance(normalize=false), table₁)
     D₂ = 0.5*pairwise(Euclidean(), euclidcol₁) +
          0.5*pairwise(CoDaDistance(), codacol₁)
+    @test D₁ ≈ D₂
+
+    # pairwise with multiclass and ordered factor
+    table₃ = coerce(table₃, :a => Multiclass, :b => OrderedFactor)
+    D₁ = pairwise(TableDistance(normalize=false), table₃)
+    D₂ = 0.5*pairwise(TableDistances.MulticlassDistance(), multiclass) +
+         0.5*pairwise(TableDistances.OrderedFactorDistance(), ordered)
     @test D₁ ≈ D₂
   end
 end
