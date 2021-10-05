@@ -9,8 +9,8 @@ using TableOperations
 using ScientificTypes
 using Distances
 using StringDistances
-using CoDa
 using CategoricalArrays
+using CoDa
 using Statistics
 
 import Distances: pairwise

@@ -11,7 +11,7 @@ default_distance(::Type{<:Compositional}) = CoDa.CoDaDistance()
 
 struct MulticlassDistance <: Metric end
 
-(::MulticlassDistance)(x, y) = convert(Int64, levelcode(x) != levelcode(y))
+(::MulticlassDistance)(x, y) = x != y
 
 struct OrderedFactorDistance <: Metric end
 
