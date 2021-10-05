@@ -10,8 +10,8 @@ using ScientificTypes
 using Distances
 using StringDistances
 using CoDa
-using Statistics
 using CategoricalArrays
+using Statistics
 
 import Distances: pairwise
 
