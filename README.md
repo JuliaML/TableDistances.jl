@@ -31,6 +31,7 @@ We follow the [Distances.jl](https://github.com/JuliaStats/Distances.jl) interfa
 
 ```julia
 using TableDistances
+using ScientificTypes
 
 # create an heterogeneous table
 table = (a=1:5, b=rand(5), c=[:A,:B,:C])
@@ -44,9 +45,10 @@ D = pairwise(TableDistance(), t)
 
 Default distances from various packages such as
 [StringDistances.jl](https://github.com/matthieugomez/StringDistances.jl)
-are automatically chosen depending on the table schema.
+are automatically chosen depending on the table schema, and weights can
+be specified for each attribute.
 
-### Contributors
+### Authors
 
 - [Júlio Hoffimann](https://github.com/juliohm)
 - [José Augusto](https://github.com/mrr00b00t)
