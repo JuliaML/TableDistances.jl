@@ -11,6 +11,7 @@ using Distances
 using StringDistances
 using CoDa
 using Statistics
+using CategoricalArrays
 
 import Distances: pairwise
 
