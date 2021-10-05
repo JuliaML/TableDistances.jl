@@ -2,13 +2,13 @@
 # Licensed under the MIT License. See LICENCE in the project root.
 # ------------------------------------------------------------------
 
-struct MulticlassDistance <: Metric end
-
 """
     MulticlassDistance()(x, y)
 
 Return `true` if x and y are different classes, else return `false`.
 """
+struct MulticlassDistance <: Metric end
+
 (::MulticlassDistance)(x, y) = x != y
 
 result_type(::MulticlassDistance, x, y) = Bool
