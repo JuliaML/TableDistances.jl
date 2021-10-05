@@ -13,13 +13,13 @@ struct MulticlassDistance <: Metric end
 
 result_type(::MulticlassDistance, x, y) = Bool
 
-struct OrderedFactorDistance <: Metric end
-
 """
     OrderedFactorDistance()(x, y)
 
 Return the absolute value of the difference between the categorical codes of x and y.
 """
+struct OrderedFactorDistance <: Metric end
+
 (::OrderedFactorDistance)(x, y) = abs(levelcode(x) - levelcode(y))
 
 result_type(::OrderedFactorDistance, x, y) = Float64
