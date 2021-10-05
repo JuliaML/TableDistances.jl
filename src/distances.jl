@@ -7,7 +7,7 @@ struct MulticlassDistance <: Metric end
 """
     MulticlassDistance()(x, y)
 
-Return `true` if x and y are different, else return `false`.
+Return `true` if x and y are different classes, else return `false`.
 """
 (::MulticlassDistance)(x, y) = x != y
 
@@ -18,7 +18,7 @@ struct OrderedFactorDistance <: Metric end
 """
     OrderedFactorDistance()(x, y)
 
-Return the absolute value of the difference between x and y.
+Return the absolute value of the difference between the categorical codes of x and y.
 """
 (::OrderedFactorDistance)(x, y) = abs(levelcode(x) - levelcode(y))
 
