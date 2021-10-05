@@ -54,6 +54,10 @@ Default distances from various packages such as
 are automatically chosen depending on the table schema, and weights can
 be specified for each attribute.
 
+## Contributing
+
+Contributions are very welcome. Please [open an issue](https://github.com/JuliaML/TableDistances.jl/issues) if you have questions.
+
 ### Authors
 
 - [Júlio Hoffimann](https://github.com/juliohm)
