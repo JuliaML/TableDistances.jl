@@ -34,10 +34,10 @@ using TableDistances
 using ScientificTypes
 
 # create an heterogeneous table
-table = (a=1:5, b=rand(5), c=[:A,:B,:C])
+table = (a=1:5, b=rand(5), c=[:A,:B,:C], d=[1, 2, 4, 5])
 
 # adjust the scientific types
-t = coerce(table, :a => Count, :b => Continuous, :c => Multiclass)
+t = coerce(table, :a => Count, :b => Continuous, :c => Multiclass, :d => OrderedFactor)
 
 # compute the pairwise distance between rows
 D = pairwise(TableDistance(), t)
