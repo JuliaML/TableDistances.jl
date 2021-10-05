@@ -9,10 +9,11 @@ using TableOperations
 using ScientificTypes
 using Distances
 using StringDistances
+using CategoricalArrays
 using CoDa
 using Statistics
 
-import Distances: pairwise
+import Distances: pairwise, result_type
 
 include("distances.jl")
 include("normalizations.jl")
