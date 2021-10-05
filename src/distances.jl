@@ -13,7 +13,7 @@ struct MulticlassDistance <: Metric end
 
 (::MulticlassDistance)(x, y) = x != y
 
-result_type(::MulticlassDistance, x, y) = Float64
+result_type(::MulticlassDistance, x, y) = Bool
 
 struct OrderedFactorDistance <: Metric end
 
