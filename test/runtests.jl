@@ -25,20 +25,20 @@ using ScientificTypes
     D₁ = pairwise(TableDistance(normalize=true), table₁, table₂)
     D₂ = pairwise(TableDistance(normalize=false), table₁, table₂)
     D₃ = 0.5*pairwise(Euclidean(), euclidcol₁, euclidcol₂) +
-         0.5*pairwise(CoDaDistance(), codacol₁, codacol₂)
+         0.5*pairwise(Aitchison(), codacol₁, codacol₂)
     @test sum(D₁ .≤ D₂) > 4*6/2
     @test D₂ ≈ D₃
 
     # non-uniform weights
     D₁ = pairwise(TableDistance(normalize=false, weights=Dict(:a => 2., :b => 8.)), table₁, table₂)
     D₂ = 0.2*pairwise(Euclidean(), euclidcol₁, euclidcol₂) +
-         0.8*pairwise(CoDaDistance(), codacol₁, codacol₂)
+         0.8*pairwise(Aitchison(), codacol₁, codacol₂)
     @test D₁ ≈ D₂
 
     # pairwise with single table
     D₁ = pairwise(TableDistance(normalize=false), table₁)
     D₂ = 0.5*pairwise(Euclidean(), euclidcol₁) +
-         0.5*pairwise(CoDaDistance(), codacol₁)
+         0.5*pairwise(Aitchison(), codacol₁)
     @test D₁ ≈ D₂
 
     # pairwise with multiclass and ordered factor

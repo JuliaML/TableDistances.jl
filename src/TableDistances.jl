@@ -4,14 +4,17 @@
 
 module TableDistances
 
+# basic imports
 using Tables
 using TableOperations
 using ScientificTypes
 using Distances
+using Statistics
+
+# custom distances
 using StringDistances
 using CategoricalArrays
 using CoDa
-using Statistics
 
 import Distances: pairwise, result_type
 

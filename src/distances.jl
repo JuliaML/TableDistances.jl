@@ -29,7 +29,7 @@ default_distance(::Type{Count})           = Distances.Cityblock()
 default_distance(::Type{<:Multiclass})    = MulticlassDistance()
 default_distance(::Type{<:OrderedFactor}) = OrderedFactorDistance()
 default_distance(::Type{Textual})         = StringDistances.Levenshtein()
-default_distance(::Type{<:Compositional}) = CoDa.CoDaDistance()
+default_distance(::Type{<:Compositional}) = CoDa.Aitchison()
 
 function default_distances(table)
   columns = Tables.columnnames(table)
