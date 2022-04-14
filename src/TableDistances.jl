@@ -6,7 +6,6 @@ module TableDistances
 
 # basic imports
 using Tables
-using TableOperations
 using ScientificTypes
 using Distances
 using Statistics

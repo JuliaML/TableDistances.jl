@@ -11,10 +11,10 @@ default_normalization(::Type{<:Compositional}) =
 default_normalization(::Type) = nothing
 
 function normalize(tables...)
-  partitions = Tables.partitioner(collect(tables))
-  longtable  = TableOperations.joinpartitions(partitions)
-  colnames   = Tables.columnnames(longtable)
-  scitypes   = schema(longtable).scitypes
+  rtables   = Tables.rowtable.(tables)
+  longtable = Tables.columntable(reduce(vcat, rtables))
+  colnames  = Tables.columnnames(longtable)
+  scitypes  = schema(longtable).scitypes
 
   constants  = map(zip(colnames, scitypes)) do (c, s)
     x = Tables.getcolumn(longtable, c)
