@@ -1,3 +1,7 @@
+# ------------------------------------------------------------------
+# Licensed under the MIT License. See LICENCE in the project root.
+# ------------------------------------------------------------------
+
 module TableDistancesCoDaExt
 
 import TableDistances: default_distance, default_normalization
