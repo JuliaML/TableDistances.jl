@@ -6,14 +6,11 @@ module TableDistances
 
 # basic imports
 using Tables
-using ScientificTypes
 using Distances
 using Statistics
 
 # custom distances
 using StringDistances
-using CategoricalArrays
-using CoDa
 
 import Distances: pairwise, result_type
 

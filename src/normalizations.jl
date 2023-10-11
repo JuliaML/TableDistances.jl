@@ -2,37 +2,30 @@
 # Licensed under the MIT License. See LICENCE in the project root.
 # ------------------------------------------------------------------
 
-default_normalization(::Type{Continuous}) =
-  x -> (quantile(x, 0.75) - quantile(x, 0.25))
-default_normalization(::Type{<:Compositional}) =
-  x -> maximum(norm.(x))
-
-# fallback to no normalization
 default_normalization(::Type) = nothing
+default_normalization(::Type{<:AbstractFloat}) = x -> (quantile(x, 0.75) - quantile(x, 0.25))
 
 function normalize(tables...)
-  rtables   = Tables.rowtable.(tables)
+  rtables = Tables.rowtable.(tables)
   longtable = Tables.columntable(reduce(vcat, rtables))
-  colnames  = Tables.columnnames(longtable)
-  scitypes  = schema(longtable).scitypes
+  cols = Tables.columns(longtable)
+  names = Tables.columnnames(cols)
 
-  constants  = map(zip(colnames, scitypes)) do (c, s)
-    x = Tables.getcolumn(longtable, c)
-    k = default_normalization(s)
+  constants = map(names) do nm
+    x = Tables.getcolumn(cols, nm)
+    k = default_normalization(eltype(x))
     isnothing(k) ? k : k(x)
   end
 
-  colconst   = zip(colnames, constants)
-
   map(tables) do table
     # perform normalization
-    colvalues = map(colconst) do (c, k)
-      x = Tables.getcolumn(table, c)
+    cols = Tables.columns(table)
+    columns = map(names, constants) do nm, k
+      x = Tables.getcolumn(cols, nm)
       isnothing(k) ? x : x ./ k
     end
 
     # return same table type
-    ctor = Tables.materializer(table)
-    ctor((; zip(colnames, colvalues)...))
+    (; zip(names, columns)...) |> Tables.materializer(table)
   end
 end

@@ -3,7 +3,8 @@
 # ------------------------------------------------------------------
 
 function default_weights(table)
-  cols = Tables.columnnames(table)
-  n = length(cols)
-  Dict(cols .=> fill(1/n, n))
+  cols = Tables.columns(table)
+  names = Tables.columnnames(cols)
+  n = length(names)
+  Dict(nm => 1/n for nm in names)
 end
