@@ -5,7 +5,7 @@
 module TableDistancesCategoricalArraysExt
   
 import TableDistances: default_distance
-import TableDistances: OredredCategDistance, CategoricalDistance
+import TableDistances: OrederedCategDistance, CategoricalDistance
 import Distances: result_type
 
 using Distances
@@ -15,10 +15,10 @@ using CategoricalArrays
 
 result_type(::CategoricalDistance, x, y) = Bool
 
-(::OredredCategDistance)(x, y) = abs(levelcode(x) - levelcode(y))
+(::OrederedCategDistance)(x, y) = abs(levelcode(x) - levelcode(y))
 
-result_type(::OredredCategDistance, x, y) = Float64
+result_type(::OrederedCategDistance, x, y) = Float64
 
-default_distance(::Type{<:CategoricalValue}, x) = isordered(x) ? OredredCategDistance() : CategoricalDistance()
+default_distance(::Type{<:CategoricalValue}, x) = isordered(x) ? OrederedCategDistance() : CategoricalDistance()
 
 end

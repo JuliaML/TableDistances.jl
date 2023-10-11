@@ -10,11 +10,11 @@ Return `true` if x and y are different classes, else return `false`.
 struct CategoricalDistance <: Metric end
 
 """
-    OredredCategDistance()(x, y)
+    OrederedCategDistance()(x, y)
 
 Return the absolute value of the difference between the categorical codes of x and y.
 """
-struct OredredCategDistance <: Metric end
+struct OrederedCategDistance <: Metric end
 
 default_distance(x) = default_distance(eltype(x), x)
 default_distance(::Type{<:Real}, x) = Euclidean()
