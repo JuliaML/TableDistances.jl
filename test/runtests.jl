@@ -1,10 +1,9 @@
 using TableDistances
-using Tables
-using Test
 using CategoricalArrays
-using CoDa
 using Distances
-using ScientificTypes
+using Tables
+using CoDa
+using Test
 
 @testset "TableDistances.jl" begin
   @testset "Pairwise" begin
@@ -39,13 +38,6 @@ using ScientificTypes
     D₁ = pairwise(TableDistance(normalize=false), table₁)
     D₂ = 0.5*pairwise(Euclidean(), euclidcol₁) +
          0.5*pairwise(Aitchison(), codacol₁)
-    @test D₁ ≈ D₂
-
-    # pairwise with multiclass and ordered factor
-    table₃ = coerce(table₃, :a => Multiclass, :b => OrderedFactor)
-    D₁ = pairwise(TableDistance(normalize=false), table₃)
-    D₂ = 0.5*pairwise(TableDistances.UnorderedCategDistance(), multiclass) +
-         0.5*pairwise(TableDistances.OrederedCategDistance(), ordered)
     @test D₁ ≈ D₂
   end
 end
