@@ -12,7 +12,7 @@ struct CategoricalDistance <: Metric end
 """
     OredredCategDistance()(x, y)
 
-Return the absolute value of the difference between the OredredCateg codes of x and y.
+Return the absolute value of the difference between the categorical codes of x and y.
 """
 struct OredredCategDistance <: Metric end
 
