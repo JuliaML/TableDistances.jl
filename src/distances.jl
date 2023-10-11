@@ -3,11 +3,11 @@
 # ------------------------------------------------------------------
 
 """
-    CategoricalDistance()(x, y)
+    UnorderedCategDistance()(x, y)
 
 Return `true` if x and y are different classes, else return `false`.
 """
-struct CategoricalDistance <: Metric end
+struct UnorderedCategDistance <: Metric end
 
 """
     OrederedCategDistance()(x, y)

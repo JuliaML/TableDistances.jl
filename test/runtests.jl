@@ -44,7 +44,7 @@ using ScientificTypes
     # pairwise with multiclass and ordered factor
     table₃ = coerce(table₃, :a => Multiclass, :b => OrderedFactor)
     D₁ = pairwise(TableDistance(normalize=false), table₃)
-    D₂ = 0.5*pairwise(TableDistances.CategoricalDistance(), multiclass) +
+    D₂ = 0.5*pairwise(TableDistances.UnorderedCategDistance(), multiclass) +
          0.5*pairwise(TableDistances.OrederedCategDistance(), ordered)
     @test D₁ ≈ D₂
   end
