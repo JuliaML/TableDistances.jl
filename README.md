@@ -33,13 +33,13 @@ We follow the [Distances.jl](https://github.com/JuliaStats/Distances.jl) interfa
 julia> using TableDistances
 
 julia> table = (a=1:3, b=rand(3), c=["A", "B", "C"], d=[1, 2, 4])
-(a = 1:3, b = [0.6550604694752227, 0.3136943350481851, 0.21473814711738037], c = ["A", "B", "C"], d = [1, 2, 4])
+(a = 1:3, b = [0.7596581938450753, 0.6952806574889876, 0.6669145844749085], c = ["A", "B", "C"], d = [1, 2, 4])
 
 julia> D = pairwise(TableDistance(), table)
 3×3 Matrix{Float64}:
- 0.0      1.13763   1.25
- 1.13763  0.0       0.862368
- 1.25     0.862368  0.0
+ 0.0      1.09707   1.25
+ 1.09707  0.0       0.902927
+ 1.25     0.902927  0.0
 ```
 
 ## Contributing
