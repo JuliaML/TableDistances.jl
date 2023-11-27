@@ -40,7 +40,7 @@ using Test
          0.5*pairwise(Aitchison(), codacol₁)
     @test D₁ ≈ D₂
 
-    # unordered categorical
+    # unordered categorical values
     D = [
       0.0  1.0  0.0  1.0
       1.0  0.0  1.0  1.0
@@ -49,7 +49,7 @@ using Test
     ]
     @test pairwise(TableDistance(), table₃) == pairwise(TableDistance(), table₄) == D
 
-    # ordered categorical
+    # ordered categorical values
     D = [
       0.0  1.0  0.0  2.0
       1.0  0.0  1.0  1.0
