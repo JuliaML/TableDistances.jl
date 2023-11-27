@@ -5,7 +5,7 @@
 
 This package provides methods for computing distances between rows of general
 [Tables.jl](https://github.com/JuliaData/Tables.jl) tables using the ecosystem
-of scientific types available in [ScientificTypes.jl](https://github.com/JuliaAI/ScientificTypes.jl).
+of scientific types available in [DataScienceTraits.jl](https://github.com/JuliaML/DataScienceTraits.jl).
 It follows the [Distances.jl](https://github.com/JuliaStats/Distances.jl) interface
 as much as possible.
 
@@ -30,29 +30,17 @@ Get the latest stable release with Julia's package manager:
 We follow the [Distances.jl](https://github.com/JuliaStats/Distances.jl) interface as much as possible:
 
 ```julia
-using TableDistances
-using ScientificTypes
+julia> using TableDistances
 
-# create an heterogeneous table
-table = (a=1:3, b=rand(3), c=["A", "B", "C"], d=[1, 2, 4])
+julia> table = (a=1:3, b=rand(3), c=["A", "B", "C"], d=[1, 2, 4])
 (a = 1:3, b = [0.7596581938450753, 0.6952806574889876, 0.6669145844749085], c = ["A", "B", "C"], d = [1, 2, 4])
 
-# adjust the scientific types
-t = coerce(table, :a => Count, :b => Continuous, :c => Multiclass, :d => OrderedFactor)
-(a = 1:3, b = [0.7596581938450753, 0.6952806574889876, 0.6669145844749085], c = CategoricalArrays.CategoricalValue{String, UInt32}["A", "B", "C"], d = CategoricalArrays.CategoricalValue{Int64, UInt32}[1, 2, 4])
-
-# compute the pairwise distance between rows
-D = pairwise(TableDistance(), t)
+julia> D = pairwise(TableDistance(), table)
 3×3 Matrix{Float64}:
- 0.0      1.09707   1.75
+ 0.0      1.09707   1.25
  1.09707  0.0       0.902927
- 1.75     0.902927  0.0
+ 1.25     0.902927  0.0
 ```
-
-Default distances from various packages such as
-[StringDistances.jl](https://github.com/matthieugomez/StringDistances.jl)
-are automatically chosen depending on the table schema, and weights can
-be specified for each attribute.
 
 ## Contributing
 

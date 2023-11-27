@@ -4,11 +4,14 @@
 
 module TableDistancesCoDaExt
 
-import TableDistances: default_distance, default_normalization
 using CoDa
 
-default_distance(::Type{<:Composition}, x) = Aitchison()
+using DataScienceTraits: Compositional
 
-default_normalization(::Type{<:Composition}) = x -> maximum(norm.(x))
+import TableDistances: default_distance, default_normalization
+
+default_distance(::Type{Compositional}, x) = Aitchison()
+
+default_normalization(::Type{Compositional}) = x -> maximum(norm.(x))
 
 end

@@ -3,7 +3,7 @@
 # ------------------------------------------------------------------
 
 default_normalization(::Type) = nothing
-default_normalization(::Type{<:AbstractFloat}) = x -> (quantile(x, 0.75) - quantile(x, 0.25))
+default_normalization(::Type{Continuous}) = x -> (quantile(x, 0.75) - quantile(x, 0.25))
 
 function normalize(tables...)
   rtables = Tables.rowtable.(tables)
@@ -13,7 +13,7 @@ function normalize(tables...)
 
   constants = map(names) do nm
     x = Tables.getcolumn(cols, nm)
-    k = default_normalization(eltype(x))
+    k = default_normalization(elscitype(x))
     isnothing(k) ? k : k(x)
   end
 

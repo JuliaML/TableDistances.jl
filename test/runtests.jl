@@ -10,16 +10,16 @@ using Test
     # test data
     table₁ = (a = rand(4), b = rand(Composition{5}, 4))
     table₂ = (a = rand(6), b = rand(Composition{5}, 6))
-    table₃ = (a = categorical(["a", "b", "a", "c"]), b = categorical([1, 4, 1, 5]))
+    table₃ = (a = ["a", "b", "a", "c"], b = [1, 4, 1, 5])
+    table₄ = (a = categorical(table₃.a), b = categorical(table₃.b))
+    table₅ = (a = categorical(table₃.a, ordered=true), b = categorical(table₃.b, ordered=true))
 
     # specific columns
     euclidcol₁ = Tables.getcolumn(table₁, :a)
     euclidcol₂ = Tables.getcolumn(table₂, :a)
     codacol₁   = Tables.getcolumn(table₁, :b)
     codacol₂   = Tables.getcolumn(table₂, :b)
-    multiclass = Tables.getcolumn(table₃, :a)
-    ordered    = Tables.getcolumn(table₃, :b)
-  
+
     # column normalization
     D₁ = pairwise(TableDistance(normalize=true), table₁, table₂)
     D₂ = pairwise(TableDistance(normalize=false), table₁, table₂)
@@ -39,5 +39,23 @@ using Test
     D₂ = 0.5*pairwise(Euclidean(), euclidcol₁) +
          0.5*pairwise(Aitchison(), codacol₁)
     @test D₁ ≈ D₂
+
+    # unordered categorical values
+    D = [
+      0.0  1.0  0.0  1.0
+      1.0  0.0  1.0  1.0
+      0.0  1.0  0.0  1.0
+      1.0  1.0  1.0  0.0
+    ]
+    @test pairwise(TableDistance(), table₃) == pairwise(TableDistance(), table₄) == D
+
+    # ordered categorical values
+    D = [
+      0.0  1.0  0.0  2.0
+      1.0  0.0  1.0  1.0
+      0.0  1.0  0.0  2.0
+      2.0  1.0  2.0  0.0
+    ]
+    @test pairwise(TableDistance(), table₅) == D
   end
 end
