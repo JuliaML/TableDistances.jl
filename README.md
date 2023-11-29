@@ -1,7 +1,7 @@
 # TableDistances.jl
 
-[![Build Status](https://github.com/juliohm/TableDistances.jl/workflows/CI/badge.svg)](https://github.com/juliohm/TableDistances.jl/actions)
-[![Coverage](https://codecov.io/gh/juliohm/TableDistances.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/juliohm/TableDistances.jl)
+[![Build Status](https://github.com/JuliaML/TableDistances.jl/workflows/CI/badge.svg)](https://github.com/JuliaML/TableDistances.jl/actions)
+[![Coverage](https://codecov.io/gh/JuliaML/TableDistances.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/JuliaML/TableDistances.jl)
 
 This package provides methods for computing distances between rows of general
 [Tables.jl](https://github.com/JuliaData/Tables.jl) tables using the ecosystem
@@ -48,5 +48,5 @@ Contributions are very welcome. Please [open an issue](https://github.com/JuliaM
 
 ### Authors
 
-- [Júlio Hoffimann](https://github.com/juliohm)
+- [Júlio Hoffimann](https://github.com/JuliaML)
 - [José Augusto](https://github.com/mrr00b00t)
