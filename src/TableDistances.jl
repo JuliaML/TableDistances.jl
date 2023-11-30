@@ -4,16 +4,17 @@
 
 module TableDistances
 
-# basic imports
 using Tables
 using Distances
 using Statistics
 using DataScienceTraits
-using CategoricalArrays
 
-using DataScienceTraits: Continuous, Categorical
+using DataScienceTraits: Continuous
+using DataScienceTraits: Categorical
+using DataScienceTraits: Compositional
 using DataScienceTraits: isordered
 using CategoricalArrays: levelcode
+using CoDa: Aitchison, norm
 
 import Distances: pairwise, result_type
 

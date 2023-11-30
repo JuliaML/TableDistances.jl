@@ -4,6 +4,7 @@
 
 default_normalization(::Type) = nothing
 default_normalization(::Type{Continuous}) = x -> (quantile(x, 0.75) - quantile(x, 0.25))
+default_normalization(::Type{Compositional}) = x -> maximum(norm.(x))
 
 function normalize(tables...)
   rtables = Tables.rowtable.(tables)
