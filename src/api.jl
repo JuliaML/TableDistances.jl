@@ -15,7 +15,7 @@ Distance between rows of Tables.jl tables.
 * `weights`   - dictionary with weights for each column
                 (default to uniform weights)
 
-## Example
+## Examples
 
 ```julia
 julia> pairwise(TableDistance(), table₁, table₂)
