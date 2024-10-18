@@ -16,7 +16,7 @@ result_type(::UnorderedCategDistance, x, y) = Bool
 
 default_distance(x) = default_distance(elscitype(x), x)
 default_distance(::Type{Continuous}, x) = Euclidean()
-default_distance(::Type{Categorical}, x) = isordered(x) ? OrederedCategDistance() : UnorderedCategDistance()
+default_distance(::Type{Categorical}, x) = isordered(categorical(x)) ? OrederedCategDistance() : UnorderedCategDistance()
 default_distance(::Type{Compositional}, x) = Aitchison()
 
 function default_distances(table)
