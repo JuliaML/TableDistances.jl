@@ -3,6 +3,7 @@ using CategoricalArrays
 using Distances
 using Tables
 using ColorTypes
+using ColorVectorSpace
 using CoDa
 using Test
 
@@ -54,5 +55,15 @@ using Test
       2.0  1.0  2.0  0.0
     ]
     @test pairwise(TableDistance(), table₃) == D
+
+    # color types
+    table = (; c = [RGB(1, 0, 0), RGB(0, 1, 0), RGB(0, 0, 1)])
+    d = 0.5773502691896258
+    D = [
+      0.0 d d
+      d 0.0 d
+      d d 0.0
+    ]
+    @test pairwise(TableDistance(), table) == D
   end
 end
