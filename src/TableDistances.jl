@@ -6,11 +6,10 @@ module TableDistances
 
 using Tables
 using Distances
-using Statistics
 using DataScienceTraits
 using CategoricalArrays
-
-using CoDa: Aitchison, norm
+using LinearAlgebra
+using Statistics
 
 import Distances: pairwise, result_type
 
