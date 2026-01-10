@@ -1,7 +1,7 @@
 name = "TableDistances"
 uuid = "e5d66e97-8c70-46bb-8b66-04a2d73ad782"
 authors = ["Júlio Hoffimann <julio.hoffimann@gmail.com>", "José Augusto <jose.augusto@impa.br>"]
-version = "1.1.2"
+version = "1.2.0"
 
 [deps]
 CategoricalArrays = "324d7699-5711-5eae-9e2f-1d82baa6b597"
